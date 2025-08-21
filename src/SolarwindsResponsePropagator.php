@@ -51,7 +51,9 @@ final class SolarwindsResponsePropagator implements ResponsePropagator
         $traceState = $spanContext->getTraceState();
         $xtrace_options_response = $traceState->get("xtrace_options_response");
         if ($xtrace_options_response !== null) {
-            $setter->set($carrier, self::X_TRACE_OPTIONS_RESPONSE, $xtrace_options_response);
+            $replaced = str_replace('....', ',', $xtrace_options_response);
+            $final = str_replace('####', '=', $replaced);
+            $setter->set($carrier, self::X_TRACE_OPTIONS_RESPONSE, $final);
         }
 
 
