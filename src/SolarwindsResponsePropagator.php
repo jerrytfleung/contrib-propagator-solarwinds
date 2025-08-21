@@ -48,6 +48,14 @@ final class SolarwindsResponsePropagator implements ResponsePropagator
         $header = self::SUPPORTED_VERSION . '-' . $traceId . '-' . $spanId . '-' . $samplingFlag;
         $setter->set($carrier, self::X_TRACE, $header);
 
+        $traceState = $spanContext->getTraceState();
+        $xtrace_options_response = $traceState->get("xtrace_options_response");
+        if ($xtrace_options_response !== null) {
+            $setter->set($carrier, self::X_TRACE_OPTIONS_RESPONSE, $xtrace_options_response);
+        }
+
+
+        // } ? $setter->set($carrier, self::X_TRACE_OPTIONS_RESPONSE, "1") : null;
 //        $responseBaggage = ResponseBaggage::fromContext($context);
 //        if($responseBaggage->isEmpty()) {
 //            return;
