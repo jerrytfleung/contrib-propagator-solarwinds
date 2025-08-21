@@ -49,21 +49,13 @@ final class SolarwindsResponsePropagator implements ResponsePropagator
         $setter->set($carrier, self::X_TRACE, $header);
 
         $traceState = $spanContext->getTraceState();
-        $xtrace_options_response = $traceState->get("xtrace_options_response");
-        if ($xtrace_options_response !== null) {
-            $replaced = str_replace('....', ',', $xtrace_options_response);
-            $final = str_replace('####', '=', $replaced);
-            $setter->set($carrier, self::X_TRACE_OPTIONS_RESPONSE, $final);
+        if ($traceState !== null) {
+            $xtrace_options_response = $traceState->get("xtrace_options_response");
+            if ($xtrace_options_response !== null) {
+                $replaced = str_replace('....', ',', $xtrace_options_response);
+                $final = str_replace('####', '=', $replaced);
+                $setter->set($carrier, self::X_TRACE_OPTIONS_RESPONSE, $final);
+            }
         }
-
-
-        // } ? $setter->set($carrier, self::X_TRACE_OPTIONS_RESPONSE, "1") : null;
-//        $responseBaggage = ResponseBaggage::fromContext($context);
-//        if($responseBaggage->isEmpty()) {
-//            return;
-//        }
-//        foreach ($responseBaggage->getAll() as $key => $value) {
-//            $setter->set($carrier, $key, (string)$value->getValue());
-//        }
     }
 }
